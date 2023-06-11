@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  app:
+    build: ./docker/php
+    ports:
+      - 5173:5173
+    volumes:
+      - ./src:/data
+  db:
+    build: ./docker/mysql
+    ports:
+      - 3306:3306
+    volumes:
+      - laravel-store:/var/lib/mysql
+  
+  web:
+    image: nginx:1.20-alpine
+    ports:
+     - 80:80
+    volumes:
+     - ./src:/data
+     - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    working_dir: /data
+
+volumes:
+  laravel-store:
