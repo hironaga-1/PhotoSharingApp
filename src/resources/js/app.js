@@ -16,9 +16,14 @@ import store from './store';
  * to use in your application's views. An example is included for you.
  */
 
-const app = createApp(App);
-app.use(router);
-app.use(store);
+const checked_app = async () => {
+    await store.dispatch('auth/currentUser')
+
+    const app = createApp(App);
+    app.use(router);
+    app.use(store);
+    app.mount('#app');
+}
 
 /**
  * The following block of code may be used to automatically register your
@@ -38,4 +43,4 @@ app.use(store);
  * scaffolding. Otherwise, you will need to add an element yourself.
  */
 
-app.mount('#app');
+checked_app();
