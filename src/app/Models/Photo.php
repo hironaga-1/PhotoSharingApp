@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class Photo extends Model
 {
@@ -13,8 +15,16 @@ class Photo extends Model
     protected $primaryKey = 'id';
     public $incrementing = false;
     protected $keyType = 'string';
-    
+
     const ID_LENGTH = 12;
+
+    protected $appends = [
+        'url',
+    ];
+
+    protected $visible = [
+        'id', 'owner', 'url',
+    ];
 
     public function __construct(array $attributes = [])
     {
@@ -53,5 +63,23 @@ class Photo extends Model
         }
 
         return $id;
-    }    
+    }
+
+    /**
+     * リレーション - usersテーブル
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function owner()
+    {
+        return $this->belongsTo('App\Models\User', 'user_id', 'id', 'users');
+    }
+
+    /**
+     * アクセサ - url
+     * @return string
+     */
+    public function getUrlAttribute()
+    {
+        return Storage::disk('s3')->url($this->attributes['filename']);
+    }
 }

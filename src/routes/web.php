@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/photos/{photo}/download', [App\Http\Controllers\PhotoController::class, 'download']);
 Route::get('/{any?}', fn() => view('welcome'))->where('any', '.+');
 Auth::routes();
 

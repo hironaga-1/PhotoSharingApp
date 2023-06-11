@@ -23,4 +23,5 @@ Route::post('/register', [Controllers\Auth\RegisterController::class, 'register'
 Route::post('/login', [Controllers\Auth\LoginController::class, 'login'])->name('login');
 Route::post('/logout', [Controllers\Auth\LoginController::class, 'logout'])->name('logout');
 Route::get('/user', fn() => Auth::user())->name('user');
+Route::get('/photos', [Controllers\PhotoController::class, 'index'])->name('photo.index');
 Route::post('/photos', [Controllers\PhotoController::class, 'create'])->name('photo.create');
