@@ -25,3 +25,4 @@ Route::post('/logout', [Controllers\Auth\LoginController::class, 'logout'])->nam
 Route::get('/user', fn() => Auth::user())->name('user');
 Route::get('/photos', [Controllers\PhotoController::class, 'index'])->name('photo.index');
 Route::post('/photos', [Controllers\PhotoController::class, 'create'])->name('photo.create');
+Route::get('/photos/{id}', [Controllers\PhotoController::class, 'show'])->name('photo.show');
