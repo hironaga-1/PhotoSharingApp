@@ -18,6 +18,8 @@ class Photo extends Model
 
     const ID_LENGTH = 12;
 
+    protected $perPage = 15;
+
     protected $appends = [
         'url',
     ];
