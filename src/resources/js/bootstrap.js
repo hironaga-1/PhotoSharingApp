@@ -7,6 +7,7 @@ import 'bootstrap';
  */
 
 import axios from 'axios';
+import { getCookieValue } from './util';
 window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
