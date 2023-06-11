@@ -63,8 +63,9 @@ export default defineComponent({
         login() {
             console.log(this.loginForm)
         }, 
-        register() {
-            console.log(this.registerForm)
+        async register() {
+            await this.$store.dispatch('auth/register', this.registerForm)
+            this.$router.push('/')
         }
     }
 })
