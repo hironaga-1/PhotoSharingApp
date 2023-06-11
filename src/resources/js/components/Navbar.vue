@@ -7,8 +7,8 @@
         <div v-if="isLogin" class="navbar__item">
             <button class="button" @click="showForm = !showForm">
               <i class="icon ion-md-add"></i>
-                Submit a photo
-              </button>
+              Submit a photo
+            </button>
         </div>
         <span v-if="isLogin" class="navbar__item">
           {{ username }}
@@ -19,13 +19,18 @@
           </RouterLink>
         </div>
       </div>
+      <photo-form v-model:visible="showForm" />
     </nav>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
+import PhotoForm from './PhotoForm.vue'
 
 export default defineComponent({
+  components:{
+    PhotoForm
+  },
   data() {
     return {
       showForm: false

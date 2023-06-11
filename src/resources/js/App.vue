@@ -15,13 +15,14 @@
 
 <script>
 import { defineComponent } from 'vue'
-import { INTERNAL_SERVER_ERROR } from './util';
+import { INTERNAL_SERVER_ERROR } from './util'
+import Message from './components/Message.vue'
 import Navbar from './components/Navbar.vue'
 import Footer from './components/Footer.vue'
 
 export default defineComponent({
     components: {
-        Navbar, Footer,
+        Navbar, Footer, Message,
     },
     computed: {
       errorCode() {
