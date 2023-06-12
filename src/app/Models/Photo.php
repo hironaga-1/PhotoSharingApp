@@ -21,11 +21,12 @@ class Photo extends Model
     protected $perPage = 15;
 
     protected $appends = [
-        'url',
+        'url', 'likes_count', 'liked_by_user',
     ];
 
     protected $visible = [
-        'id', 'owner', 'url',
+        'id', 'owner', 'url', 'comments',
+        'likes_count', 'liked_by_user',
     ];
 
     public function __construct(array $attributes = [])
@@ -77,11 +78,53 @@ class Photo extends Model
     }
 
     /**
+     * リレーション - commentsテーブル
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function comments()
+    {
+        return $this->hasMany('App\Models\Comment')->orderBy('id', 'desc');
+    }
+
+    /**
+     * リレーション - usersテーブル
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function likes()
+    {
+        return $this->belongsToMany('App\Models\User', 'likes')->withTimestamps();
+    }
+
+    /**
      * アクセサ - url
      * @return string
      */
     public function getUrlAttribute()
     {
         return Storage::disk('s3')->url($this->attributes['filename']);
+    }
+
+    /**
+     * アクセサ - likes_count
+     * @return int
+     */
+    public function getLikesCountAttribute()
+    {
+        return $this->likes->count();
+    }
+
+    /**
+     * アクセサ - liked_by_user
+     * @return boolean
+     */
+    public function getLikedByUserAttribute()
+    {
+        if (Auth::guest()) {
+            return false;
+        }
+
+        return $this->likes->contains(function ($user) {
+            return $user->id === Auth::user()->id;
+        });
     }
 }

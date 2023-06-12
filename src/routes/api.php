@@ -26,3 +26,6 @@ Route::get('/user', fn() => Auth::user())->name('user');
 Route::get('/photos', [Controllers\PhotoController::class, 'index'])->name('photo.index');
 Route::post('/photos', [Controllers\PhotoController::class, 'create'])->name('photo.create');
 Route::get('/photos/{id}', [Controllers\PhotoController::class, 'show'])->name('photo.show');
+Route::post('/photos/{photo}/comments', [Controllers\PhotoController::class, 'addComment'])->name('photo.comment');
+Route::put('/photos/{id}/like', [Controllers\PhotoController::class, 'like'])->name('photo.like');
+Route::delete('/photos/{id}/like', [Controllers\PhotoController::class, 'unlike']);
