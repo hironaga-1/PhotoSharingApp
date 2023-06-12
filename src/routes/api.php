@@ -29,3 +29,8 @@ Route::get('/photos/{id}', [Controllers\PhotoController::class, 'show'])->name('
 Route::post('/photos/{photo}/comments', [Controllers\PhotoController::class, 'addComment'])->name('photo.comment');
 Route::put('/photos/{id}/like', [Controllers\PhotoController::class, 'like'])->name('photo.like');
 Route::delete('/photos/{id}/like', [Controllers\PhotoController::class, 'unlike']);
+Route::get('/reflesh-token', function (Illuminate\Http\Request $request) {
+    $request->session()->regenerateToken();
+
+    return response()->json();
+});
