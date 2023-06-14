@@ -9,7 +9,12 @@
         @click="fullWidth = ! fullWidth"
       >
         <img :src="photo.url" alt="">
-        <figcaption>Posted by {{ photo.owner.name }}</figcaption>
+        <RouterLink
+          class="button button--link"
+          :to="`/${photo.owner.id}/${formatName(photo.owner.name)}`"
+        >
+          <figcaption>Posted by {{ photo.owner.name }}</figcaption>
+        </RouterLink>
       </figure>
       <div class="photo-detail__pane">
         <button 
@@ -40,7 +45,12 @@
               {{ comment.content }}
             </p>
             <p class="photo-detail__commentInfo">
+              <RouterLink
+                class="button button--link"
+                :to="`/${comment.author.id}/${formatName(comment.author.name)}`"
+              >
               {{ comment.author.name }}
+            </RouterLink>
             </p>
           </li>
         </ul>
@@ -154,6 +164,9 @@ export default defineComponent({
           } else {
             this.like()
           }
+        },
+        formatName(name) {
+          return name.toLowerCase().replace(/\s/g, '');
         }
     },
     watch: {

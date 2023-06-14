@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import PhotoList from './pages/PhotoList.vue';
 import PhotoDetail from './pages/PhotoDetail.vue';
 import Login from './pages/Login.vue';
+import AuthorProfile from './pages/AuthorProfile.vue';
 import SystemError from './pages/errors/System.vue';
 import NotFound from './pages/errors/NotFound.vue'
 import store from './store';
@@ -31,6 +32,11 @@ const routes = [
                 next()
             }
         }
+    },
+    {
+        path: '/:id/:username',
+        component: AuthorProfile,
+        props: true
     },
     {
         path: '/500',

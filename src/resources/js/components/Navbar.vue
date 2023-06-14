@@ -11,7 +11,7 @@
             </button>
         </div>
         <span v-if="isLogin" class="navbar__item">
-          {{ username }}
+          <RouterLink class="button button--link" :to="`/${userid}/${formatname}`">{{ username }}</RouterLink>
         </span>
         <div v-else class="navbar__item">
           <RouterLink class="button button--link" to="/login">
@@ -42,6 +42,12 @@ export default defineComponent({
     },
     username() {
         return this.$store.getters['auth/username']
+    },
+    formatname() {
+        return this.$store.getters['auth/formatname']
+    },
+    userid() {
+        return this.$store.getters['auth/userid']
     }
   }
 })

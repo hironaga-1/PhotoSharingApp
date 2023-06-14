@@ -10,6 +10,8 @@ const state = {
 const getters = {
     check: state => !!state.user,
     username: state => state.user ? state.user.name : '',
+    userid: state => state.user ? state.user.id: 0,
+    formatname: state => state.user ? state.user.name.toLowerCase().replace(/\s/g, '') : '',
 }
 
 const mutations = {

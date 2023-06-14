@@ -6,6 +6,8 @@ use App\Http\Requests\StorePhoto;
 use App\Models\Photo;
 use App\Http\Requests\StoreComment;
 use App\Models\Comment;
+use App\Models\User;
+use App\Models\Like;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +17,7 @@ class PhotoController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except(['index', 'download', 'show']);
+        $this->middleware('auth')->except(['index', 'download', 'show', 'photos_by_user', 'photos_by_like']);
     }
 
     /**
@@ -25,6 +27,40 @@ class PhotoController extends Controller
     {
         $photos = Photo::with(['owner', 'likes'])
             ->orderBy(Photo::CREATED_AT, 'desc')->paginate();
+
+        return $photos;
+    }
+
+    /**
+     * 写真一覧 (投稿者)
+     * @param string $userid
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function photos_by_user(int $userid)
+    {
+        $userid = (int) $userid;
+        $user = User::find($userid);
+        $photos = $user->photos()
+                ->with(['owner', 'likes'])
+                ->orderBy(Photo::CREATED_AT, 'desc')->get();
+        
+        return $photos;
+    }
+
+    /**
+     * 写真一覧 (いいね)
+     * @param string $userid
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function photos_by_like(int $userid)
+    {
+        $userid = (int) $userid;
+        $photos_id = Like::where('user_id', $userid)->get('photo_id');
+        $photos_id = $photos_id->map(function ($photo) {
+            return $photo->photo_id;
+        });
+        $photos = Photo::whereIn('id', $photos_id)
+            ->with(['owner', 'likes'])->get();
 
         return $photos;
     }
